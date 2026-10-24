@@ -3,6 +3,7 @@ import {
   MapContainer,
   TileLayer,
   Polyline,
+  Circle,
   CircleMarker,
   Popup,
   useMap,
@@ -163,6 +164,31 @@ function RouteMap({ routes, recommendedRoute, selectedTime }) {
         />
 
         <FitRoutes routes={routes} />
+
+        {/* Approximate risk areas around sampled checkpoints */}
+        {routes.flatMap((route) =>
+          (route.checkpoints || []).map((checkpoint, index) => {
+            const [longitude, latitude] = checkpoint.coordinates;
+            const { risk } = getRiskAtTime(checkpoint, selectedTime);
+            const color = RISK_COLORS[risk] || RISK_COLORS.UNAVAILABLE;
+
+            return (
+              <Circle
+                key={`risk-area-${route.name}-${index}`}
+                center={[latitude, longitude]}
+                radius={4000}
+                interactive={false}
+                pathOptions={{
+                  color,
+                  opacity: 0.3,
+                  weight: 1,
+                  fillColor: color,
+                  fillOpacity: 0.14,
+                }}
+              />
+            );
+          }),
+        )}
 
         {routes.map((route) => {
           const isRecommended = route.name === recommendedRoute;

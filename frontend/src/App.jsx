@@ -312,6 +312,13 @@ function App() {
                 nearest checkpoint, not measurements for every point along the
                 road.
               </p>
+
+              <p className="map-help">
+                Translucent circles show approximate risk areas around sampled
+                checkpoints. They are visual indicators, not continuous weather
+                measurements. Colours represent the selected forecast hour; grey
+                means forecast data is unavailable.
+              </p>
             </section>
 
             <section className="panel timeline-panel">
