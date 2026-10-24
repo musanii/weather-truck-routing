@@ -164,7 +164,7 @@ function RouteMap({ routes, recommendedRoute, selectedTime }) {
 
         <FitRoutes routes={routes} />
 
-        {routes.map((route, index) => {
+        {routes.map((route) => {
           const isRecommended = route.name === recommendedRoute;
 
           const segments = buildRiskSegments(route, selectedTime);
