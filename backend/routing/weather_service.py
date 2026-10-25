@@ -1,10 +1,17 @@
 import requests
-from functools import lru_cache
+from django.core.cache import cache
+
 
 OPEN_METEO_URL = "https://api.open-meteo.com/v1/forecast"
 
-@lru_cache(maxsize=512)
+
 def get_hourly_forecast(latitude, longitude):
+    cache_key = f"weather_forecast:{latitude:.4f}:{longitude:.4f}"
+    cached_forecasts = cache.get(cache_key)
+
+    if cached_forecasts is not None:
+        return cached_forecasts
+    
     params = {
         "latitude": latitude,
         "longitude":longitude,
@@ -53,6 +60,7 @@ def get_hourly_forecast(latitude, longitude):
             "rain_inches_per_hour":rain,
             "snow_inches_per_hour":snow_cm/ 2.54,
         })
-        
+
+    cache.set(cache_key, forecasts, timeout=900)
     return forecasts
 
