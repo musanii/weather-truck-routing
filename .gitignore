@@ -1,7 +1,5 @@
 
 # Secrets
-.env
-.env.*
 
 # Python virtual environments
 .venv/
@@ -31,3 +29,5 @@ backend/db.sqlite3
 # Python local database and generated files
 *.sqlite3
 *.sqlite3-journal
+config.bat
+node_modules
