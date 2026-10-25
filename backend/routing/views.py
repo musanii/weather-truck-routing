@@ -1,6 +1,6 @@
 from datetime import datetime
 
-
+import logging
 import requests
 from rest_framework import status
 from rest_framework.decorators import api_view
@@ -9,6 +9,7 @@ from rest_framework.response import Response
 from .routing_service import get_routes
 from .weather_aware_service import assess_routes
 
+logger = logging.getLogger(__name__)
 
 @api_view(["GET"])
 def health_check(request):
@@ -119,6 +120,7 @@ def routes_view(request):
             cargo_weight_lb=cargo_weight_lb,
         )
     except requests.RequestException:
+        logger.exception("Provider request failed during route assessment")
         return Response(
             {"error": "A weather or routing provider could not be reached."},
             status=status.HTTP_502_BAD_GATEWAY,
