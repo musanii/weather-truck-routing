@@ -1,8 +1,9 @@
 import requests
+from functools import lru_cache
 
 OPEN_METEO_URL = "https://api.open-meteo.com/v1/forecast"
 
-
+@lru_cache(maxsize=512)
 def get_hourly_forecast(latitude, longitude):
     params = {
         "latitude": latitude,
@@ -54,3 +55,4 @@ def get_hourly_forecast(latitude, longitude):
         })
         
     return forecasts
+
