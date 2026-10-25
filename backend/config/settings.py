@@ -142,3 +142,12 @@ CORS_ALLOWED_ORIGINS = [
     ).split(",")
     if origin.strip()
 ]
+
+# Cache weather forecasts for 15 minutes.
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+        "LOCATION": "routecast-weather-cache",
+        "TIMEOUT": 900,
+    }
+}
